@@ -1,0 +1,18 @@
+{
+  "name": "new-test-backend-nodejs",
+  "version": "1.0.0",
+  "description": "<h1>Backend Analyst Candidate Test</h1> Dear developer,",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongodb": "^6.16.0"
+  }
+}
