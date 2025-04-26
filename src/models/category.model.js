@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const categorySchema = mongoose.Schema({
+const categorySchema = mongoose.Schema({
   title: {
     type: String,
     required: [true, "Title is required"],
