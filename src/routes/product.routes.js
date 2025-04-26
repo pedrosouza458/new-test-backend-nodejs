@@ -1,60 +1,12 @@
 import express from "express";
-import { product } from "../models/product.model.js";
+import { ProductController } from "../controllers/product.controller.js";
 
 const router = express.Router();
+const productController = new ProductController();
 
-router.post("/", async (req, res) => {
-  const { title, owner, category, price, description } = req.body;
-  try {
-    await product.create({ title, owner, category, price, description });
-    res.status(201).send({
-      message: "product created",
-    });
-  } catch (error) {
-    res.status(500).send({
-      message: "Failed to create product",
-      error,
-    });
-  }
-});
-
-router.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { title, category, price, description } = req.body;
-
-  try {
-    await product.findOneAndUpdate(
-      { _id: id },
-      { title, category, price, description }
-    );
-    return res.status(200).send({
-      message: "Product Updated",
-    });
-  } catch (error) {
-    return res.status(500).send({
-      message: "Failed to update product",
-    });
-  }
-});
-
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { owner_id } = req.body;
-  const findProduct = await product.findById(id);
-  if (!findProduct) {
-    return res.status(404).send({
-      message: "Product not found",
-    });
-  }
-  if (findProduct.owner !== owner_id) {
-    res.status(403).send({
-      message: "User not authorized to delete this product.",
-    });
-  }
-  await product.deleteOne({ _id: id });
-  return res.status(200).send({
-    message: "Product deleted",
-  });
-});
+router.post("/", productController.createProduct);
+router.get("/:id", productController.getProductById);
+router.put("/:id", productController.updateProduct);
+router.delete("/:id", productController.deleteProduct);
 
 export default router;
