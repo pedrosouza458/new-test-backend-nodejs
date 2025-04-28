@@ -7,8 +7,8 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/products", productRoutes);
-app.use("/categories", categoryRoutes);
+app.use("/catalog-api/products", productRoutes);
+app.use("/catalog-api/categories", categoryRoutes);
 
 connectToDb.then(() => {
   app.listen(3000, () => {
