@@ -1,12 +1,15 @@
 import { sendSQSMessage } from "../lib/sqs.js";
 import { product } from "../models/product.model.js";
+import { SQSService } from "../services/sqs.service.js";
+
+const sqsService = new SQSService();
 
 export class ProductController {
   async createProduct(req, res) {
     const { title, owner, category, price, description } = req.body;
     try {
       await product.create({ title, owner, category, price, description });
-      await sendSQSMessage(owner);
+      await sqsService.sendMessage(owner);
       res.status(201).send({
         message: "product created",
       });
