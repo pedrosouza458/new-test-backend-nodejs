@@ -20,7 +20,7 @@ app.post("/consumer/catalog", async (req, res) => {
 });
 
 connectToDb.then(() => {
-  app.listen(3000, () => {
+  app.listen(3001, () => {
     console.log("server is running");
   });
 });
