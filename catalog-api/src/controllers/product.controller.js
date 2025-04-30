@@ -1,4 +1,3 @@
-import { sendSQSMessage } from "../lib/sqs.js";
 import { product } from "../models/product.model.js";
 import { SQSService } from "../services/sqs.service.js";
 
@@ -30,6 +29,7 @@ export class ProductController {
         message: "Product not found",
       });
     }
+    await sqsService.sendMessage(findProduct.owner);
     return res.status(200).send(findProduct);
   }
   async updateProduct(req, res) {
@@ -37,10 +37,11 @@ export class ProductController {
     const { title, category, price, description } = req.body;
 
     try {
-      await product.findOneAndUpdate(
+      const findProduct = await product.findOneAndUpdate(
         { _id: id },
         { title, category, price, description }
       );
+      await sqsService.sendMessage(findProduct.owner);
       return res.status(200).send({
         message: "Product Updated",
       });
@@ -64,6 +65,7 @@ export class ProductController {
         message: "User not authorized to delete this product.",
       });
     }
+    await sqsService.sendMessage(findProduct.owner);
     await product.deleteOne({ _id: id });
     return res.status(200).send({
       message: "Product deleted",
